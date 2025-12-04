@@ -1,29 +1,38 @@
 {
     "1": {
         "dia": 1,
-        "am_ejercicios": [],
+        "am_ejercicios": [
+            "Fuerza A"
+        ],
         "pm_ejercicios": [],
-        "realizado": false,
+        "realizado": true,
         "notas": ""
     },
     "2": {
         "dia": 2,
-        "am_ejercicios": [],
+        "am_ejercicios": [
+            "Fuerza B",
+            "Cardio 60 min"
+        ],
         "pm_ejercicios": [],
-        "realizado": false,
+        "realizado": true,
         "notas": ""
     },
     "3": {
         "dia": 3,
         "am_ejercicios": [],
         "pm_ejercicios": [],
-        "realizado": false,
-        "notas": ""
+        "realizado": true,
+        "notas": "Descanso"
     },
     "4": {
         "dia": 4,
-        "am_ejercicios": [],
-        "pm_ejercicios": [],
+        "am_ejercicios": [
+            "Cardio 70 min"
+        ],
+        "pm_ejercicios": [
+            "Fuerza A"
+        ],
         "realizado": false,
         "notas": ""
     },
