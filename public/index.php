@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/../src/workouts.php';
 
-//el JSON existe
+// El JSON existe
 ensureWorkoutsJsonExists();
 
-//Cargamos los 84 días y rutinas
+// Cargamos los 84 días
 $workouts = loadWorkouts();
 
-//Procesar guardado
+// Procesar guardado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dia = isset($_POST['dia']) ? (int)$_POST['dia'] : 0;
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-//Progreso
+// Progreso
 $total = count($workouts);
 $done  = 0;
 foreach ($workouts as $w) {
@@ -88,7 +88,8 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
             padding-left: 12px;
         }
         .pm-section {
-            border-left: 3px solid #0dcaf0;
+            border-left: 3px solid;
+            border-color: #0dcaf0;
             padding-left: 12px;
         }
         .fade-in {
@@ -97,6 +98,11 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        .empty-state {
+            color: #6c757d;
+            font-style: italic;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -122,7 +128,7 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
         <!-- Acordeón con Fuerza A / B -->
         <p class="d-inline-flex gap-1">
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <i class="bi bi-lightning-charge-fill"></i> Fuerza A y B
+                Rutinas de referencia
             </button>
         </p>
         <div class="collapse col-12 col-lg-6" id="collapseExample">
@@ -130,7 +136,7 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
                 <div class="container">
                     <div class="row align-items-start">
                         <div class="col-12 col-md-6">
-                            <span class="fw-semibold text-primary"><i class="bi bi-bookmark-fill"></i> Fuerza plan A:</span>
+                            <span class="fw-semibold"><i class="bi bi-bookmark-fill"></i> Fuerza A:</span>
                             <ul class="mt-2">
                                 <li>Press pierna + Deadlift 20kg 3x12</li>
                                 <li>Curl femoral 3x12</li>
@@ -139,7 +145,7 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
                             </ul>                            
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="fw-semibold text-info"><i class="bi bi-bookmark-fill"></i> Fuerza plan B:</span>
+                            <span class="fw-semibold"><i class="bi bi-bookmark-fill"></i> Fuerza B:</span>
                             <ul class="mt-2">
                                 <li>Press pierna 3x12</li>
                                 <li>Sentadilla asistida 3x12</li>
@@ -189,57 +195,65 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
                             <div class="card-body">
                                 <!-- AM -->
                                 <div class="am-section mb-3">
-                                    <p class="mb-2"><strong class="text-primary"><i class="bi bi-sunrise-fill"></i> Mañana</strong> <?= htmlspecialchars($w['am_base']) ?></p>
+                                    <p class="mb-2"><strong class="text-primary"><i class="bi bi-sunrise-fill"></i> Mañana</strong></p>
                                     
                                     <div class="ejercicios-container-am" data-tipo="am">
                                         <?php
                                         $am_ej = $w['am_ejercicios'] ?? [];
-                                        foreach ($am_ej as $idx => $ej):
+                                        if (empty($am_ej)):
                                         ?>
-                                            <div class="ejercicio-item fade-in">
-                                                <input
-                                                    type="text"
-                                                    class="form-control form-control-sm ejercicio-input"
-                                                    name="am_ejercicios[]"
-                                                    value="<?= htmlspecialchars($ej) ?>"
-                                                    placeholder="Ejercicio adicional">
-                                                <button type="button" class="btn btn-danger btn-sm btn-remove-ejercicio" onclick="removeEjercicio(this)">
-                                                    <i class="bi bi-x-lg"></i>
-                                                </button>
-                                            </div>
-                                        <?php endforeach; ?>
+                                            <p class="empty-state mb-2">Sin ejercicios</p>
+                                        <?php else: ?>
+                                            <?php foreach ($am_ej as $idx => $ej): ?>
+                                                <div class="ejercicio-item fade-in">
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm ejercicio-input"
+                                                        name="am_ejercicios[]"
+                                                        value="<?= htmlspecialchars($ej) ?>"
+                                                        placeholder="Ejercicio">
+                                                    <button type="button" class="btn btn-danger btn-sm btn-remove-ejercicio" onclick="removeEjercicio(this)">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
                                     
                                     <button type="button" class="btn btn-outline-primary btn-sm btn-add-ejercicio mt-2" onclick="addEjercicio('am', <?= $dia ?>)">
-                                        <i class="bi bi-plus-circle"></i> Añadir
+                                        <i class="bi bi-plus-circle"></i> Añadir ejercicio
                                     </button>
                                 </div>
 
                                 <!-- PM -->
                                 <div class="pm-section mb-3">
-                                    <p class="mb-2"><strong class="text-info"><i class="bi bi-sunset-fill"></i> Tarde</strong> <?= htmlspecialchars($w['pm_base']) ?></p>
+                                    <p class="mb-2"><strong class="text-info"><i class="bi bi-sunset-fill"></i> Tarde</strong></p>
                                     
                                     <div class="ejercicios-container-pm" data-tipo="pm">
                                         <?php
                                         $pm_ej = $w['pm_ejercicios'] ?? [];
-                                        foreach ($pm_ej as $idx => $ej):
+                                        if (empty($pm_ej)):
                                         ?>
-                                            <div class="ejercicio-item fade-in">
-                                                <input
-                                                    type="text"
-                                                    class="form-control form-control-sm ejercicio-input"
-                                                    name="pm_ejercicios[]"
-                                                    value="<?= htmlspecialchars($ej) ?>"
-                                                    placeholder="Ejercicio adicional">
-                                                <button type="button" class="btn btn-danger btn-sm btn-remove-ejercicio" onclick="removeEjercicio(this)">
-                                                    <i class="bi bi-x-lg"></i>
-                                                </button>
-                                            </div>
-                                        <?php endforeach; ?>
+                                            <p class="empty-state mb-2">Sin ejercicios</p>
+                                        <?php else: ?>
+                                            <?php foreach ($pm_ej as $idx => $ej): ?>
+                                                <div class="ejercicio-item fade-in">
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm ejercicio-input"
+                                                        name="pm_ejercicios[]"
+                                                        value="<?= htmlspecialchars($ej) ?>"
+                                                        placeholder="Ejercicio">
+                                                    <button type="button" class="btn btn-danger btn-sm btn-remove-ejercicio" onclick="removeEjercicio(this)">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
                                     
                                     <button type="button" class="btn btn-outline-info btn-sm btn-add-ejercicio mt-2" onclick="addEjercicio('pm', <?= $dia ?>)">
-                                        <i class="bi bi-plus-circle"></i> Añadir
+                                        <i class="bi bi-plus-circle"></i> Añadir ejercicio
                                     </button>
                                 </div>
 
@@ -263,7 +277,7 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
                                         class="form-control form-control-sm"
                                         name="notas"
                                         rows="2"
-                                        placeholder=""><?= htmlspecialchars($w['notas']) ?></textarea>
+                                        placeholder="Anota sensaciones, pesos usados, etc."><?= htmlspecialchars($w['notas']) ?></textarea>
                                 </div>
 
                                 <!-- Botón Guardar -->
@@ -285,6 +299,12 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
         function addEjercicio(tipo, dia) {
             const container = document.querySelector(`#form_dia_${dia} .ejercicios-container-${tipo}`);
             
+            // Eliminar mensaje "Sin ejercicios" si existe
+            const emptyState = container.querySelector('.empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+            
             const newItem = document.createElement('div');
             newItem.className = 'ejercicio-item fade-in';
             newItem.innerHTML = `
@@ -292,7 +312,7 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
                     type="text"
                     class="form-control form-control-sm ejercicio-input"
                     name="${tipo}_ejercicios[]"
-                    placeholder="Ejercicio adicional"
+                    placeholder="Ejercicio"
                     autofocus>
                 <button type="button" class="btn btn-danger btn-sm btn-remove-ejercicio" onclick="removeEjercicio(this)">
                     <i class="bi bi-x-lg"></i>
@@ -304,12 +324,20 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
             // Foco automático en el nuevo input
             const newInput = newItem.querySelector('input');
             newInput.focus();
+            
+            // Prevenir envío con Enter
+            newInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
         }
 
         // Eliminar ejercicio
         function removeEjercicio(btn) {
             const item = btn.closest('.ejercicio-item');
             const input = item.querySelector('input');
+            const container = item.closest('[data-tipo]');
             
             // Confirmar solo si hay texto
             if (input.value.trim() !== '') {
@@ -325,10 +353,19 @@ $percent = $total > 0 ? round(($done / $total) * 100) : 0;
             
             setTimeout(() => {
                 item.remove();
+                
+                // Si no quedan ejercicios, mostrar mensaje
+                const remainingItems = container.querySelectorAll('.ejercicio-item');
+                if (remainingItems.length === 0) {
+                    const emptyMsg = document.createElement('p');
+                    emptyMsg.className = 'empty-state mb-2';
+                    emptyMsg.textContent = 'Sin ejercicios';
+                    container.appendChild(emptyMsg);
+                }
             }, 300);
         }
 
-        // Prevenir envío accidental con Enter
+        // Prevenir envío accidental con Enter en campos existentes
         document.querySelectorAll('.ejercicio-input').forEach(input => {
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
