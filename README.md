@@ -10,34 +10,34 @@ Funciona sin base de datos: toda la información se almacena en un único archiv
 ## Características principales
 
 ### **Gestión de entrenamientos**
-- ✔️ Visualización de los 84 días divididos automáticamente por semanas y fases  
-- ✔️ Cards individuales por día con:
+- Visualización de los 84 días divididos automáticamente por semanas y fases  
+- Cards individuales por día con:
   - Entreno AM (texto base + ejercicios personalizados)
   - Entreno PM (texto base + ejercicios personalizados)
   - Checkbox "realizado"
   - Notas por día
-- ✔️ Rutinas de referencia **Fuerza A** y **Fuerza B** en acordeón desplegable
-- ✔️ Porcentaje total del plan completado con barra de progreso
+- Rutinas de referencia **Fuerza A** y **Fuerza B** en acordeón desplegable
+- Porcentaje total del plan completado con barra de progreso
 
 ### **Gestión dinámica de ejercicios** 🆕
-- ✨ **Añadir ejercicios** con botón "+ Añadir ejercicio AM/PM"
-- ✨ **Eliminar ejercicios** individualmente con botón "×" rojo
-- ✨ **Animaciones suaves** al añadir/eliminar (fade-in/fade-out)
-- ✨ **Confirmación inteligente** solo si el ejercicio tiene contenido
-- ✨ **Foco automático** en nuevos campos de ejercicio
+- **Añadir ejercicios** con botón "+ Añadir ejercicio AM/PM"
+- **Eliminar ejercicios** individualmente con botón "×" rojo
+- **Animaciones suaves** al añadir/eliminar (fade-in/fade-out)
+- **Confirmación inteligente** solo si el ejercicio tiene contenido
+- **Foco automático** en nuevos campos de ejercicio
 
 ### **Interfaz mejorada** 🎨
-- 🎨 **Iconos Bootstrap Icons** en toda la interfaz
-- 🔵 **Código de colores**: Azul para AM, Naranja para PM
-- 📱 **Diseño responsive** adaptado a móvil, tablet y escritorio
-- ✨ **Efectos visuales** suaves y profesionales
-- 🏷️ **Badges de estado** (Completado/Pendiente)
+- **Iconos Bootstrap Icons** en toda la interfaz
+- **Código de colores**: Azul para AM, Naranja para PM
+- **Diseño responsive** adaptado a móvil, tablet y escritorio
+- **Efectos visuales** suaves y profesionales
+- **Badges de estado** (Completado/Pendiente)
 
 ### **Tecnología**
-- ✔️ Datos persistidos en un archivo `workouts.json`
-- ✔️ Sin base de datos, sin dependencias externas
-- ✔️ Código limpio con **separación lógica** (`src/`) y vista (`public/`)
-- ✔️ JavaScript vanilla minimalista (~40 líneas)
+- Datos persistidos en un archivo `workouts.json`
+- Sin base de datos, sin dependencias externas
+- Código limpio con **separación lógica** (`src/`) y vista (`public/`)
+- JavaScript vanilla minimalista (~40 líneas)
 
 ---
 
@@ -150,10 +150,8 @@ Edita `src/workouts.php` en la función `generateDefault84Workouts()` (línea ~5
 // Modifica los textos de am_base y pm_base según tus necesidades
 $workouts[] = [
     'dia'           => $i,
-    'am_base'       => "Cambia este texto",
-    'pm_base'       => "Cambia este texto",
-    'am_ejercicios' => [],
-    'pm_ejercicios' => [],
+    'am_ejercicios' => [],  // Array vacío, se llena desde la interfaz
+    'pm_ejercicios' => [],  // Array vacío, se llena desde la interfaz
     'realizado'     => false,
     'notas'         => ''
 ];
@@ -266,18 +264,18 @@ Desarrollado con ❤️ para seguimiento de entrenamientos personales.
 ## Changelog
 
 ### v2.0.0 (Diciembre 2024) - Gestión Dinámica
-- ✨ Añadida gestión dinámica de ejercicios con JavaScript
-- ✨ Botones para añadir/eliminar ejercicios individualmente
-- ✨ Animaciones suaves en la interfaz
-- ✨ Iconos Bootstrap Icons en toda la aplicación
-- ✨ Código de colores para AM/PM
-- ✨ Confirmación inteligente al eliminar
-- 🔧 Optimización del código PHP (filtrado de arrays)
-- 📱 Mejoras en diseño responsive
+- Añadida gestión dinámica de ejercicios con JavaScript
+- Botones para añadir/eliminar ejercicios individualmente
+- Animaciones suaves en la interfaz
+- Iconos Bootstrap Icons en toda la aplicación
+- Código de colores para AM/PM
+- Confirmación inteligente al eliminar
+- Optimización del código PHP (filtrado de arrays)
+- Mejoras en diseño responsive
 
 ### v1.0.0 (Inicial)
-- ✅ Sistema base de seguimiento de 84 días
-- ✅ Almacenamiento en JSON
-- ✅ Bootstrap 5 responsive
-- ✅ Rutinas de referencia en acordeón
-- ✅ Progreso con barra porcentual
+- Sistema base de seguimiento de 84 días
+- Almacenamiento en JSON
+- Bootstrap 5 responsive
+- Rutinas de referencia en acordeón
+- Progreso con barra porcentual
