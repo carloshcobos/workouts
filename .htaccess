@@ -1,0 +1,5 @@
+# Hace que Apache cargue public/index.php por defecto
+DirectoryIndex public/index.php
+
+# Evita mostrar el listado de directorios si no hay index
+Options -Indexes
